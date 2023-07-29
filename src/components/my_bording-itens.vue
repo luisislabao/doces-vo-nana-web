@@ -1,14 +1,17 @@
 <template>
-    <section id="section">   
-        <h1>{{this.category}}</h1>
-        <div v-for="product in productstoshow" :key="product.id">
-        <p>{{product.name}}</p>
+    <section id="section">
+        <h1>{{ this.category }}</h1>
+        <div class="productareawraper">
+            <div class="productarea" v-for="product in productstoshow" :key="product.id">
+                <img src="../assets/trabalhador-da-estrada.png" @click="Callfunc(product.name, product.Quantitie)">
+                <p>{{ product.name }}</p>
+            </div>
         </div>
     </section>
 </template>
 <script>
-import {newProducts} from './get-products.vue';
-// import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
+import { newProducts } from './get-products.vue';
 export default {
     nome: 'Board_Itens',
     props: {
@@ -17,20 +20,36 @@ export default {
     data() {
         return {
             productstoshow: [],
-            teste:newProducts,
+            newProducts
         }
-    },  
+    },
     methods: {
-        getproductsByCategory(){   
+        getproductsByCategory() {
             console.log(this.category)
-            this.teste = this.teste.map((produto) => {
+            this.newProducts = this.newProducts.map((produto) => {
                 produto.categories.map((category) => {
-                    if(category.name == this.category){
-                       this.productstoshow.push(produto)
+                    if (category.name == this.category) {
+                        this.productstoshow.push(produto)
                     }
-                })           
+                })
             })
-        
+        },
+        Callfunc(x, y) {
+            console.log(x, y)
+            Swal.fire({
+                title: 'Quantos?',
+                text: 'Disponivel: ' + y,
+                type: 'question',
+                input: 'range',
+                inputLabel: 'aaaa',
+                inputAttributes: {
+                    min: 1,
+                    max: y,
+                    step: 1
+                },
+                inputValue: 0,
+                confirmButtonColor: '#e99f9fe0',
+            })
         }
     },
     mounted() {
@@ -41,18 +60,27 @@ export default {
 </script>
 
 <style scoped> 
-h1{
-    color: beige;
-}
-div{
-    justify-content: space-between;
-    border-radius: 20px;
-    padding: 2px;
-    margin: 10px;
-    width: 20%;
-    min-height: 100px;
-    background-color: aquamarine;
-}
 
+h1 {
+     color: beige;
+     font-size: xx-large;
+ }
 
+ .productarea {
+
+     justify-content: space-between;
+     border-radius: 20px;
+     padding: 2px;
+     margin: 10px;
+     width: 20%;
+     min-height: 100px;
+     background-color: aqua;
+ }
+
+ .productareawraper {
+     display: flex;
+     flex-direction: row;
+     flex-wrap: wrap;
+     justify-content: center;
+ }
 </style>

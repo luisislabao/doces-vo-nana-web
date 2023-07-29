@@ -24,7 +24,6 @@
     </div>
     <div v-if="ok == true">
       <div v-for="category in categories" :key="category.id">
-        <!-- <pre>{{category}}</pre> -->
       <Board_Itens :category="category" ></Board_Itens>
     </div>
     </div>
@@ -36,7 +35,7 @@ import { newProducts } from "./components/get-products.vue";
 import HelloWorld from "../src/components/header.vue";
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-import { products } from "./components/get-products.vue";
+// import { products } from "./components/get-products.vue";
 import Board_Itens from "@/components/my_bording-itens.vue";
 export default {
   name: 'App',
@@ -57,17 +56,10 @@ export default {
     }
   },
   mounted() {
-    let placeholder = document.createElement('option')
-    placeholder.innerText = 'Ou navega nas categorias 🚣🏼‍♂️ '
-    let select = document.getElementById('tipos')
-    select.appendChild(placeholder)
-    for (let tipo in products) {
-      placeholder = document.createElement('option')
-      placeholder.innerText = `${tipo}`
-      let select = document.getElementById('tipos')
-      select.appendChild(placeholder)
-    }
+    // swift boarding itens
     this.ok = true 
+
+    //create array of category 
     this.newProducts = newProducts.map((products) => 
     {products.categories.map((category) => {
     if (this.categories.indexOf(category.name) < 0) {
@@ -75,6 +67,18 @@ export default {
     }
       })} )
 
+    // options
+
+    let placeholder = document.createElement('option')
+    placeholder.innerText = 'Ou navega nas categorias 🚣🏼‍♂️ '
+    let select = document.getElementById('tipos')
+    select.appendChild(placeholder)
+    for (let tipo in this.categories) {
+      placeholder = document.createElement('option')
+      placeholder.innerText = `${this.categories[tipo]}`
+      let select = document.getElementById('tipos')
+      select.appendChild(placeholder)
+    }
     }
   }
 
@@ -155,7 +159,6 @@ body {
   padding: 1px;
   
 }
-
 select {
   width: 100px;
   border-radius: 20px;
