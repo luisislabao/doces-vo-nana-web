@@ -25,7 +25,6 @@ export default {
     },
     methods: {
         getproductsByCategory() {
-            console.log(this.category)
             this.newProducts = this.newProducts.map((produto) => {
                 produto.categories.map((category) => {
                     if (category.name == this.category) {
@@ -60,14 +59,13 @@ export default {
 </script>
 
 <style scoped> 
-
 h1 {
-     color: beige;
+     color: rgb(201, 50, 50);
      font-size: xx-large;
+     /* background-color: tomato; */
  }
 
  .productarea {
-
      justify-content: space-between;
      border-radius: 20px;
      padding: 2px;

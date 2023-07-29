@@ -19,15 +19,17 @@
     </carousel>
     <br>
     <div id="seeker">
-      <input type="text" placeholder="Aqui você pesquisa teu docin!!🔎" id="pesquisa"><select name="categoria"
-        id="tipos"></select>
+      <input type="text" placeholder="pesquisa teu docin!!🔎" id="pesquisa"><select name="categoria" id="tipos"
+        @change="replace()"></select>
     </div>
-    <div v-if="ok == true">
+    <div v-if="ok != false" :key="change">
       <div v-for="category in categories" :key="category.id">
-      <Board_Itens :category="category" ></Board_Itens>
+        <Board_Itens :category="category"></Board_Itens>
+      </div>
     </div>
-    </div>
-  </section>  
+    <br>
+    <div class="footer"> aqui será o rodapé </div>
+  </section>
 </template>
 
 <script>
@@ -37,6 +39,8 @@ import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
 // import { products } from "./components/get-products.vue";
 import Board_Itens from "@/components/my_bording-itens.vue";
+// import footer_page from "@/components/footer_page.vue";
+let change = 0
 export default {
   name: 'App',
   components: {
@@ -45,27 +49,49 @@ export default {
     Slide,
     Pagination,
     Navigation,
-    Board_Itens
+    Board_Itens,
+    // footer_page
   },
   data() {
     return {
       ok: false,
       newProducts,
-      categories: []
-      
+      categories: [],
+      change
+    }
+  },
+  methods: {
+    replace() {
+      let tipo = document.getElementById('tipos')
+      if (tipo.value != 'Ou navega nas categorias 🚣🏼‍♂️') {
+        let section = document.getElementById('section')
+        section.innerHTML = ''
+        this.categories = [`${tipo.value}`]
+        this.change += 1
+      }else {
+        this.newProducts = newProducts.map((products) => {
+      products.categories.map((category) => {
+        if (this.categories.indexOf(category.name) < 0) {
+          this.categories.push(category.name)
+        }
+      })
+    })
+
+      }
     }
   },
   mounted() {
     // swift boarding itens
-    this.ok = true 
+    this.ok = true
 
     //create array of category 
-    this.newProducts = newProducts.map((products) => 
-    {products.categories.map((category) => {
-    if (this.categories.indexOf(category.name) < 0) {
-    this.categories.push(category.name)
-    }
-      })} )
+    this.newProducts = newProducts.map((products) => {
+      products.categories.map((category) => {
+        if (this.categories.indexOf(category.name) < 0) {
+          this.categories.push(category.name)
+        }
+      })
+    })
 
     // options
 
@@ -79,12 +105,11 @@ export default {
       let select = document.getElementById('tipos')
       select.appendChild(placeholder)
     }
-    }
   }
-
+}
 </script>
 
-<style s>
+<style>
 #seeker {
   margin: 10px;
   padding: 10px;
@@ -137,12 +162,13 @@ body {
 }
 
 #section {
-  background-color: #e99f9fe0;
-  ;
+  background-image: url('assets/backgorundboard.jpg');
+  box-shadow:  1px 4px 4px 5px rgb(206, 123, 108);
   width: 90%;
   height: auto;
   margin-right: auto;
   margin-left: auto;
+  margin-top: 3%;
   padding: 10px;
   border-radius: 20px;
 }
@@ -157,10 +183,17 @@ body {
   text-align: center;
   display: inline-block;
   padding: 1px;
-  
+
 }
+
 select {
   width: 100px;
   border-radius: 20px;
+}
+
+.footer {
+  background-color: #e99f9fe0;
+  width: 100%;
+  /* height: 60px; */
 }</style>
 
