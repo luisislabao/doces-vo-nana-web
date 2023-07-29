@@ -1,7 +1,7 @@
 <template>
   <section id="sec">
     <HelloWorld></HelloWorld>
-    <carousel :items-to-show="1">
+    <carousel class="carrousel" :items-to-show="1">
       <slide v-for="slide in 8" :key="slide">
         <carousel__item v-if="(slide == 1)"> <img src="../src/assets/carrouseltest/1.png"> </carousel__item>
         <carousel__item v-if="(slide == 2)"> <img src="../src/assets/carrouseltest/2.png"> </carousel__item>
@@ -28,7 +28,7 @@
       </div>
     </div>
     <br>
-    <div class="footer"> aqui será o rodapé </div>
+    <Footer_page></Footer_page>
   </section>
 </template>
 
@@ -37,9 +37,8 @@ import { newProducts } from "./components/get-products.vue";
 import HelloWorld from "../src/components/header.vue";
 import 'vue3-carousel/dist/carousel.css'
 import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel'
-// import { products } from "./components/get-products.vue";
+import Footer_page from '@/components/footer_page.vue'
 import Board_Itens from "@/components/my_bording-itens.vue";
-// import footer_page from "@/components/footer_page.vue";
 let change = 0
 export default {
   name: 'App',
@@ -50,7 +49,7 @@ export default {
     Pagination,
     Navigation,
     Board_Itens,
-    // footer_page
+    Footer_page
   },
   data() {
     return {
@@ -116,6 +115,11 @@ export default {
   display: flex;
   justify-content: center;
 
+}
+
+.carousel{
+  background-color: rgb(145, 160, 172);
+  margin: 1%;
 }
 
 #pesquisa {
@@ -194,6 +198,7 @@ select {
 .footer {
   background-color: #e99f9fe0;
   width: 100%;
-  /* height: 60px; */
+  height: 60px;
+  font-size: xx-large;
 }</style>
 

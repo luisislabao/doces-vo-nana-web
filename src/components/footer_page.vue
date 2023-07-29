@@ -1,8 +1,5 @@
 <template>
     <div class="container">
-        <img @click="menu()" @mouseenter="colorin('menu')" @mouseleave="colorout('menu')" id="menu"
-            src="../assets/icons8-cardápio-512.png">
-
         <div>
             <img class="headerbuttom" src="../assets/instagram.png"
                 @click="insta('https://www.instagram.com/bolosdavonana/')" @mouseenter="colorin('logo')"
@@ -17,7 +14,7 @@
 
         <!-- menu flutuante -->
         <div @mouseleave="close()" id="myDropdown" class="dropdown-content">
-            <p class="funcionario"
+            <p
                 @click="autority()">Funcionário</p><br>
             <hr>
             <a href="#about">Sobre nós</a><br>
@@ -34,12 +31,12 @@ import Swal from 'sweetalert2';
 import { products } from '@/components/get-products.vue'
 
 export default {
-    name: "HelloWorld",
+    name: "Footer_page",
     methods: {
         autority() {
             let senha = window.prompt('Senha')
             if (senha == 1532) {
-                window.open('http://127.0.0.1:5500/Fron-End/Funcion%C3%A1rio/Index.html')
+                window.open('http://127.0.0.1:5500/Funcion%C3%A1rio/Index.html')
             }else{
                 alert('Fuckyou')
             }
@@ -85,9 +82,6 @@ export default {
 
             })
         },
-        menu() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        },
         pedido() {
             Swal.fire({
                 position: 'top-end',
@@ -106,13 +100,6 @@ export default {
 }
 </script>
 <style scoped>
-.funcionario{
-    font-size: medium;
-}
-.funcionario:hover{
-    cursor: no-drop;
-}
-
 p {
     color: #ffe4c4;
     font-family: cursive;
