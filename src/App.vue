@@ -118,7 +118,7 @@ export default {
 }
 
 .carousel{
-  background-color: rgb(145, 160, 172);
+  background-color: bisque;
   margin: 1%;
 }
 
@@ -140,7 +140,7 @@ body {
   padding: 0;
   margin: 0;
   text-align: center;
-  background-color: bisque;
+  background-image: url('assets/backgorundboard.jpg');
 }
 
 .carousel__item {
@@ -166,7 +166,7 @@ body {
 }
 
 #section {
-  background-image: url('assets/backgorundboard.jpg');
+  background-color: bisque ;
   box-shadow:  1px 4px 4px 5px rgb(206, 123, 108);
   width: 90%;
   height: auto;
