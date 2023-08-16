@@ -4,9 +4,8 @@
             src="../assets/icons8-cardápio-512.png">
 
         <div>
-            <img src="../assets/instagram.png"
-                @click="insta('https://www.instagram.com/bolosdavonana/')" @mouseenter="colorin('logo')"
-                @mouseleave="colorout('logo')" id="logo">
+            <img src="../assets/instagram.png" @click="insta('https://www.instagram.com/bolosdavonana/')"
+                @mouseenter="colorin('logo')" @mouseleave="colorout('logo')" id="logo">
             <p class="instabuttom"> Bolos da Vó Nana</p>
         </div>
 
@@ -19,8 +18,7 @@
 
         <!-- menu flutuante -->
         <div @mouseleave="close()" id="myDropdown" class="dropdown-content">
-            <p class="funcionario"
-                @click="autority()">Funcionário</p><br>
+            <p class="funcionario" @click="autority()">Funcionário</p><br>
             <hr>
             <a href="#about">Sobre nós</a><br>
             <hr>
@@ -44,7 +42,7 @@ export default {
             let senha = window.prompt('Senha')
             if (senha == 1532) {
                 window.open('http://127.0.0.1:5500/Fron-End/Funcion%C3%A1rio/Index.html')
-            }else{
+            } else {
                 alert('Fuckyou')
             }
         },
@@ -68,14 +66,32 @@ export default {
         },
         cesta() {
             axios
-            .get('http://localhost:5000/cesta/')
-            .then((response)=> {
-                console.log(response)
-            })
-            .catch((error) => {
-                alert('deu cocozin ' + error)
-            })
-            
+                .get('http://localhost:5000/cesta/')
+                .then((response) => {
+                    let tipos = []
+                    let b = ''
+                    for (let iten in response.data) {
+                        if (tipos.indexOf(response.data[iten].type) == -1) {
+                            tipos.push(response.data[iten].type)
+                        }
+                    }
+                    for (let tipo in tipos) {
+                        b += (' \n' + '\n===========\n' + `${tipos[tipo]}` + '\n===========\n' + ' \n').toUpperCase().bold()
+                        for (let blabla in response.data) {
+                            if (response.data[blabla].type == tipos[tipo]) {
+                                b += '\n' + `(${response.data[blabla].nome})X${response.data[blabla].und}` + '-\n'
+                            }
+                        }
+                    } Swal.fire({
+                        icon: 'succes',
+                        title: 'CESTA',
+                        html: '<pre>' + b + '</pre>',
+                    })
+                })
+                .catch((error) => {
+                    alert('deu cocozin ' + error)
+                })
+
         },
         menu() {
             document.getElementById("myDropdown").classList.toggle("show");
@@ -98,13 +114,15 @@ export default {
 }
 </script>
 <style scoped>
-.instabuttom{
-    color : brown;
+.instabuttom {
+    color: brown;
 }
-.funcionario{
+
+.funcionario {
     font-size: medium;
 }
-.funcionario:hover{
+
+.funcionario:hover {
     cursor: no-drop;
 }
 
@@ -132,7 +150,7 @@ img {
     max-height: 60px;
     background-color: #e99f9fe0;
     border-radius: 20px;
-    
+
 }
 
 .shopButton {

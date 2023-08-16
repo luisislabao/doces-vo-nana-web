@@ -22,6 +22,7 @@
       <input type="text" placeholder="pesquisa teu docin!!🔎" id="pesquisa"><select name="categoria" id="tipos"
         @change="replace()"></select>
     </div>
+    <div><input type="text" placeholder=" Em nome de: *" ><input type="text" placeholder="Para o endereço: *"><input type="text" placeholder="Contato (whatsapp): *"></div>
     <div v-if="ok != false" :key="change">
       <div v-for="category in categories" :key="category.id">
         <Board_Itens @tellto-Header="receiveemit($event)" :category="category"></Board_Itens>
@@ -29,6 +30,7 @@
     </div>
     <br>
     <Footer_page></Footer_page>
+
   </section>
 </template>
 
@@ -209,5 +211,7 @@ select {
   width: 100%;
   height: 60px;
   font-size: xx-large;
-}</style>
+}
+
+</style>
 

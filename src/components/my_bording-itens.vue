@@ -4,17 +4,19 @@
         <div class="productareawraper">
             <div class="productarea" v-for="product in productstoshow" :key="product.id">
                 <img :id="product.name" src="../assets/trabalhador-da-estrada.png">
-                <br><select :id="'Select' + product.name"><br>
+                <p>{{ product.name }} - {{product.price}} R$ </p>
+                <select :id="'Select' + product.name">
                     <option :value="product.Quantitie">Max. {{ product.Quantitie }} Und.</option>
                     <option v-for="count in (product.Quantitie)" :key="count--">{{ count }} Unidades</option>
                 </select>
-                <button @click="emit(product.name, category)">Adicionar</button>
+                <button @click="emit(product.name, product.price, category)">Adicionar</button>
             </div>
         </div>
     </section>
 </template>
 <script>
 let iten = []
+import axios from 'axios'
 import { newProducts } from './get-products.vue';
 export default {
     nome: 'Board_Itens',
@@ -25,20 +27,33 @@ export default {
         return {
             productstoshow: [],
             newProducts,
-            iten, 
+            iten,
         }
     },
     methods: {
         // Lembrete, resolver isso via backend
-        // emit(nm, tp) {
-        //     let id = document.getElementById(`Select${nm}`)
-        //     let message = `${id.value}`
-        //     let obg = {und: `${message}`, nome: `${nm}`, type: `${tp}`}
-        //     console.log(`Borading diz: ${obg}`)
-        //     if (id.value != '0 Unidades') {
-        //         this.$emit('tellto-Header', obg )
-        //     }
-        // },
+        emit(nm, pr, tp) {
+            let id = document.getElementById(`Select${nm}`)
+            let message = `${id.value}`
+            let obg = { 'name': `${nm}`, 'type': `${tp}`, 'price': `${pr}`, 'qnt': `${message}` }
+            console.log('Board diz:')
+            console.table(obg)
+            let axiosConfig = {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+            if (id.value != '0 Unidades') {
+                axios.post(`http://localhost:5000/cesta/`, obg, axiosConfig)
+                    .then(function (response) {
+                        return `enviado! ${response}`
+                    })
+                    .catch(function (error) {
+                        return error
+                    })
+            }
+        }
+        ,
         getproductsByCategory() {
             this.newProducts = this.newProducts.map((produto) => {
                 produto.categories.map((category) => {
@@ -56,9 +71,15 @@ export default {
 }
 </script>
 
-<style scoped> select {
+<style scoped> 
+p{
+    font-family: cursive;
+    color: rgb(216, 12, 12);
+}
+
+select {
      width: 80%;
-     height: 15%;
+     height: 10%;
      border-radius: 10px;
      color: brown;
  }
@@ -99,4 +120,5 @@ export default {
 
  button:hover {
      cursor: pointer;
- }</style>
+ }
+</style>
