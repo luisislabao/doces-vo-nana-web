@@ -1,6 +1,6 @@
 <template>
-  <section id="sec">
-    <HelloWorld></HelloWorld>
+  <section   id="sec">
+      <HelloWorld></HelloWorld>
     <carousel class="carrousel" :items-to-show="1">
       <slide v-for="slide in 8" :key="slide">
         <carousel__item v-if="(slide == 1)"> <img src="../src/assets/carrouseltest/1.png"> </carousel__item>
@@ -24,7 +24,7 @@
     </div>
     <div v-if="ok != false" :key="change">
       <div v-for="category in categories" :key="category.id">
-        <Board_Itens :category="category"></Board_Itens>
+        <Board_Itens @tellto-Header="receiveemit($event)" :category="category"></Board_Itens>
       </div>
     </div>
     <br>
@@ -56,10 +56,16 @@ export default {
       ok: false,
       newProducts,
       categories: [],
-      change
+      change,
+      showitens: false,
+      pedidos: []
     }
   },
   methods: {
+    receiveemit(param1) {
+      this.pedidos.push(param1)
+      console.log(`app diz: ${this.pedidos}`)
+    },
     replace() {
       let tipo = document.getElementById('tipos')
       if (tipo.value != 'Ou navega nas categorias 🚣🏼‍♂️') {
@@ -83,7 +89,7 @@ export default {
     // swift boarding itens
     this.ok = true
 
-    //create array of category 
+    //create array "category "
     this.newProducts = newProducts.map((products) => {
       products.categories.map((category) => {
         if (this.categories.indexOf(category.name) < 0) {
@@ -109,6 +115,9 @@ export default {
 </script>
 
 <style>
+#Comanda{
+  position: relative;
+}
 #seeker {
   margin: 10px;
   padding: 10px;
@@ -118,7 +127,7 @@ export default {
 }
 
 .carousel{
-  background-color: bisque;
+  background-color: bis;
   margin: 1%;
 }
 

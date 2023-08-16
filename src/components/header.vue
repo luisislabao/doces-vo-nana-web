@@ -4,14 +4,16 @@
             src="../assets/icons8-cardápio-512.png">
 
         <div>
-            <img class="headerbuttom" src="../assets/instagram.png"
+            <img src="../assets/instagram.png"
                 @click="insta('https://www.instagram.com/bolosdavonana/')" @mouseenter="colorin('logo')"
                 @mouseleave="colorout('logo')" id="logo">
-            <p> Bolos da Vó Nana</p>
+            <p class="instabuttom"> Bolos da Vó Nana</p>
         </div>
 
-        <img @click="cesta()" @mouseenter="colorin('cesta')" @mouseleave="colorout('cesta')" id="cesta"
-            src="../assets/cesta-64.png">
+        <div>
+            <img @click="cesta()" @mouseenter="colorin('cesta')" @mouseleave="colorout('cesta')" id="cesta"
+                src="../assets/cesta-64.png">
+        </div>
 
         <button class="shopButton" @click="pedido()" type="button">Fazer pedido!!</button>
 
@@ -26,15 +28,17 @@
                 target="_blank">Contate-nos</a><br>
             <hr>
         </div>
-
     </div>
 </template>
 <script>
 import Swal from 'sweetalert2';
-import { products } from '@/components/get-products.vue'
+import axios from 'axios'
 
 export default {
     name: "HelloWorld",
+    props: {
+        pedidos: String
+    },
     methods: {
         autority() {
             let senha = window.prompt('Senha')
@@ -63,27 +67,15 @@ export default {
             window.open(x)
         },
         cesta() {
-            console.log(products)
-            let block = ''
-            let cesta = ''
-
-            for (let propriedade in products) {
-                for (let produto in products[propriedade]) {
-
-                    block = `[${products[propriedade][produto].quantidade}.itens]-${products[propriedade][produto].nome}\n`
-                    cesta += block.padEnd(40, '-');
-                }
-            }
-            console.log(cesta)
-            Swal.fire({
-                title: '🌟 SUA CESTA 🌟 \n🙂',
-                text: `\n${cesta}`,
-                confirmButtonColor: '#e99f9fe0',
-                width: 400,
-                padding: '3em',
-
-
+            axios
+            .get('http://localhost:5000/cesta/')
+            .then((response)=> {
+                console.log(response)
             })
+            .catch((error) => {
+                alert('deu cocozin ' + error)
+            })
+            
         },
         menu() {
             document.getElementById("myDropdown").classList.toggle("show");
@@ -106,6 +98,9 @@ export default {
 }
 </script>
 <style scoped>
+.instabuttom{
+    color : brown;
+}
 .funcionario{
     font-size: medium;
 }
@@ -121,11 +116,12 @@ p {
 
 div {
     display: flex;
+    border-radius: 20px;
 }
 
 .container {
     display: flex;
-    background-color: #e69e9ee0;
+    background-color: #e69e9e8a;
     justify-content: space-around;
     width: 100%;
     height: 60px;
@@ -135,7 +131,8 @@ img {
     max-width: 400px;
     max-height: 60px;
     background-color: #e99f9fe0;
-    ;
+    border-radius: 20px;
+    
 }
 
 .shopButton {

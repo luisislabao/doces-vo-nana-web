@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div>
+        <!-- <div>
             <img class="headerbuttom" src="../assets/instagram.png"
                 @click="insta('https://www.instagram.com/bolosdavonana/')" @mouseenter="colorin('logo')"
                 @mouseleave="colorout('logo')" id="logo">
@@ -12,7 +12,7 @@
 
         <button class="shopButton" @click="pedido()" type="button">Fazer pedido!!</button>
 
-        <!-- menu flutuante -->
+        menu flutuante
         <div @mouseleave="close()" id="myDropdown" class="dropdown-content">
             <p
                 @click="autority()">Funcionário</p><br>
@@ -22,8 +22,16 @@
             <a href="https://api.whatsapp.com/send?phone=5553991755953&text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20seus%20produtos."
                 target="_blank">Contate-nos</a><br>
             <hr>
-        </div>
-
+        </div> -->
+        <ul>
+            <li>Endereço: <a href="https://goo.gl/maps/tsVERDbMcniT8AH5A" target="_blank">Rua 16 n°269</a></li>
+            <li>whatsapp: <a href="https://api.whatsapp.com/send?phone=5553991755953&text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20seus%20produtos." target="_blank">-55-(53) 9 9175-5953</a></li>
+        </ul>
+        <img src="../assets/imagem_150x150.jpg">
+        <ul>
+            <li>Instagram: <a href='https://www.instagram.com/bolosdavonana/' target="_blank">Bolos Da Vó Naná</a></li>
+            <li>Sobre-nós: <a href="https://media.tenor.com/P4DqOBNDfT4AAAAd/give-me-give-it-to-me.gif" target="_blank">MAMACO</a></li>
+        </ul>
     </div>
 </template>
 <script>
@@ -100,6 +108,12 @@ export default {
 }
 </script>
 <style scoped>
+li{
+    text-align: left;
+    font-family: cursive;
+    color: brown;
+}
+
 p {
     color: #ffe4c4;
     font-family: cursive;
@@ -112,61 +126,13 @@ div {
 
 .container {
     display: flex;
-    background-color: #e69e9ee0;
+    background-color: #e69e9e83;
     justify-content: space-around;
     width: 100%;
     height: 60px;
 }
 
 img {
-    max-width: 400px;
-    max-height: 60px;
-    background-color: #e99f9fe0;
-    ;
+    border-radius: 30px;
 }
-
-.shopButton {
-    border-radius: 20px;
-    width: 130px;
-    background-color: rgb(255, 255, 255);
-    color: rgba(233, 159, 159, 0.88);
-    height: 50px;
-    margin-block: auto;
-    border: none;
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
-
-.shopButton:hover {
-    background-color: bisque;
-}
-
-.shopButton:active {
-    background-color: aquamarine;
-}
-
-/* aqui é o teste de menu */
-.dropdown-content {
-    font-family: cursive;
-    display: none;
-    position: absolute;
-    background-color: #e99f9fe0;
-    min-width: 260px;
-    overflow: auto;
-    border-radius: 20px;
-    box-shadow: 10px 18px 16px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: bisque;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.show {
-    display: block;
-}
-
-/* <!-- seetalert style --> */
 </style> 

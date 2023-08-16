@@ -3,27 +3,42 @@
         <h1>{{ this.category }}</h1>
         <div class="productareawraper">
             <div class="productarea" v-for="product in productstoshow" :key="product.id">
-                <img src="../assets/trabalhador-da-estrada.png" @click="Callfunc(product.name, product.Quantitie)">
-                <p>{{ product.name }}</p>
+                <img :id="product.name" src="../assets/trabalhador-da-estrada.png">
+                <br><select :id="'Select' + product.name"><br>
+                    <option :value="product.Quantitie">Max. {{ product.Quantitie }} Und.</option>
+                    <option v-for="count in (product.Quantitie)" :key="count--">{{ count }} Unidades</option>
+                </select>
+                <button @click="emit(product.name, category)">Adicionar</button>
             </div>
         </div>
     </section>
 </template>
 <script>
-import Swal from 'sweetalert2';
+let iten = []
 import { newProducts } from './get-products.vue';
 export default {
     nome: 'Board_Itens',
     props: {
-        category: String
+        category: String,
     },
     data() {
         return {
             productstoshow: [],
-            newProducts
+            newProducts,
+            iten, 
         }
     },
     methods: {
+        // Lembrete, resolver isso via backend
+        // emit(nm, tp) {
+        //     let id = document.getElementById(`Select${nm}`)
+        //     let message = `${id.value}`
+        //     let obg = {und: `${message}`, nome: `${nm}`, type: `${tp}`}
+        //     console.log(`Borading diz: ${obg}`)
+        //     if (id.value != '0 Unidades') {
+        //         this.$emit('tellto-Header', obg )
+        //     }
+        // },
         getproductsByCategory() {
             this.newProducts = this.newProducts.map((produto) => {
                 produto.categories.map((category) => {
@@ -33,23 +48,6 @@ export default {
                 })
             })
         },
-        Callfunc(x, y) {
-            console.log(x, y)
-            Swal.fire({
-                title: 'Quantos?',
-                text: 'Disponivel: ' + y,
-                type: 'question',
-                input: 'range',
-                inputLabel: 'aaaa',
-                inputAttributes: {
-                    min: 1,
-                    max: y,
-                    step: 1
-                },
-                inputValue: 0,
-                confirmButtonColor: '#e99f9fe0',
-            })
-        }
     },
     mounted() {
         // this.injection()
@@ -58,8 +56,14 @@ export default {
 }
 </script>
 
-<style scoped> 
-h1 {
+<style scoped> select {
+     width: 80%;
+     height: 15%;
+     border-radius: 10px;
+     color: brown;
+ }
+
+ h1 {
      color: rgb(201, 50, 50);
      font-size: xx-large;
      /* background-color: tomato; */
@@ -73,6 +77,11 @@ h1 {
      width: 20%;
      min-height: 100px;
      background-color: aqua;
+     text-align: center;
+ }
+
+ img:hover {
+     cursor: pointer;
  }
 
  .productareawraper {
@@ -81,4 +90,13 @@ h1 {
      flex-wrap: wrap;
      justify-content: center;
  }
-</style>
+
+ button {
+     border-radius: 20px;
+     background-color: bisque;
+     color: brown;
+ }
+
+ button:hover {
+     cursor: pointer;
+ }</style>
