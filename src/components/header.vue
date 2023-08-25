@@ -30,7 +30,7 @@
 </template>
 <script>
 import Swal from 'sweetalert2';
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
     name: "HelloWorld",
@@ -65,32 +65,44 @@ export default {
             window.open(x)
         },
         cesta() {
-            axios
-                .get('http://localhost:5000/cesta/')
-                .then((response) => {
-                    let tipos = []
-                    let b = ''
-                    for (let iten in response.data) {
-                        if (tipos.indexOf(response.data[iten].type) == -1) {
-                            tipos.push(response.data[iten].type)
+            let name = document.getElementById('name').value
+            let addres = document.getElementById('addres').value
+            let contact = document.getElementById('contact').value
+            let alert = ''
+            let cesta = []
+            let cont = ''
+            if (name == '') {
+                alert = '° Nome'
+            } if (addres == '') {
+                alert += '\n° Endereço'
+            } if (contact == '') {
+                alert += '\n° Contato (Whatsapp)'
+            } if (name == '' || addres == '' || contact == '') {
+                window.alert(`Faltam informações, tais quais:\n${alert}`)
+            } else {
+                let basket = JSON.parse(localStorage.getItem('cesta'))
+                for (let iten in basket) {
+                    if (cesta.indexOf(basket[iten][0]) == -1) {
+                        cesta.push(basket[iten][0])
+                    }
+                } window.alert(cesta)
+                console.log(basket)
+                for (let tipo in cesta) {
+                    for (let reg in basket) {
+                        if (cesta[tipo] == basket[reg][0]) {
+                            cont += (`°\n ${basket[reg][1]} - ${basket[reg][2]} x ${basket[reg][3]} =\n` + Number(basket[reg][2][0]) * basket[reg][3])
                         }
                     }
-                    for (let tipo in tipos) {
-                        b += (' \n' + '\n===========\n' + `${tipos[tipo]}` + '\n===========\n' + ' \n').toUpperCase().bold()
-                        for (let blabla in response.data) {
-                            if (response.data[blabla].type == tipos[tipo]) {
-                                b += '\n' + `(${response.data[blabla].nome})X${response.data[blabla].und}` + '-\n'
-                            }
-                        }
-                    } Swal.fire({
-                        icon: 'succes',
-                        title: 'CESTA',
-                        html: '<pre>' + b + '</pre>',
-                    })
+                }
+                Swal.fire({
+                    type: 'info',
+                    title: 'CESTA ',
+                    text: cont,
+                    width: 250
+                    
                 })
-                .catch((error) => {
-                    alert('deu cocozin ' + error)
-                })
+            }
+
 
         },
         menu() {

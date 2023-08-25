@@ -9,7 +9,7 @@
                     <option :value="product.Quantitie">Max. {{ product.Quantitie }} Und.</option>
                     <option v-for="count in (product.Quantitie)" :key="count--">{{ count }} Unidades</option>
                 </select>
-                <button @click="emit(product.name, product.price, category)">Adicionar</button>
+                <button @click="addTocart(product)">Adicionar</button>
             </div>
         </div>
     </section>
@@ -31,6 +31,33 @@ export default {
         }
     },
     methods: {
+        addTocart(data){
+            let cartItens = []
+            let tipo = document.getElementById(`Select${data.name}`).value 
+            let storedData = localStorage.getItem('cesta')
+            if (! storedData){
+                cartItens.push([data.categories[0].name, data.name, tipo, data.price])
+                localStorage.setItem('cesta', JSON.stringify(cartItens))
+            }
+            else{
+                let newdata = JSON.parse(storedData)
+                let newqnt = ''
+                for (let registro in newdata){
+                    if (newdata[registro][1] == data.name){
+                        newqnt = registro 
+                    }
+                }
+                if (newqnt != '') {
+                    newdata[newqnt][2] = tipo     
+                    localStorage.setItem('cesta', JSON.stringify(newdata))
+                }else{
+                    cartItens = [data.categories[0].name, data.name, tipo, data.price]
+                    newdata.push(cartItens)
+                    localStorage.setItem('cesta', JSON.stringify(newdata))
+                }
+                
+            }
+        },
         // Lembrete, resolver isso via backend
         emit(nm, pr, tp) {
             let id = document.getElementById(`Select${nm}`)
