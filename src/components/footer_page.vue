@@ -1,33 +1,10 @@
 <template>
     <div class="container">
-        <!-- <div>
-            <img class="headerbuttom" src="../assets/instagram.png"
-                @click="insta('https://www.instagram.com/bolosdavonana/')" @mouseenter="colorin('logo')"
-                @mouseleave="colorout('logo')" id="logo">
-            <p> Bolos da Vó Nana</p>
-        </div>
-
-        <img @click="cesta()" @mouseenter="colorin('cesta')" @mouseleave="colorout('cesta')" id="cesta"
-            src="../assets/cesta-64.png">
-
-        <button class="shopButton" @click="pedido()" type="button">Fazer pedido!!</button>
-
-        menu flutuante
-        <div @mouseleave="close()" id="myDropdown" class="dropdown-content">
-            <p
-                @click="autority()">Funcionário</p><br>
-            <hr>
-            <a href="#about">Sobre nós</a><br>
-            <hr>
-            <a href="https://api.whatsapp.com/send?phone=5553991755953&text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20seus%20produtos."
-                target="_blank">Contate-nos</a><br>
-            <hr>
-        </div> -->
         <ul>
-            <li>Endereço: <a href="https://goo.gl/maps/tsVERDbMcniT8AH5A" target="_blank">Rua 16 n°269</a></li>
+            <li>Endereço: <a href="https://goo.gl/maps/tsVERDbMcniT8AH5A" target="_blank">Rua 16 n°260</a></li>
             <li>whatsapp: <a href="https://api.whatsapp.com/send?phone=5553991755953&text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20seus%20produtos." target="_blank">-55-(53) 9 9175-5953</a></li>
         </ul>
-        <img src="../assets/imagem_150x150.jpg">
+        <img class="autorization" src="../assets/imagem_150x150.jpg" @click="autority()">
         <ul>
             <li>Instagram: <a href='https://www.instagram.com/bolosdavonana/' target="_blank">Bolos Da Vó Naná</a></li>
             <li>Sobre-nós: <a href="https://media.tenor.com/P4DqOBNDfT4AAAAd/give-me-give-it-to-me.gif" target="_blank">MAMACO</a></li>
@@ -126,13 +103,16 @@ div {
 
 .container {
     display: flex;
-    background-color: #e69e9e83;
+    background-color: #e69e9edc;
     justify-content: space-around;
     width: 100%;
     height: 60px;
 }
 
-img {
+.autorization {
     border-radius: 30px;
+}
+.autorization:hover{
+    cursor: no-drop;
 }
 </style> 

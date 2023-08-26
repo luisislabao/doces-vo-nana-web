@@ -4,7 +4,7 @@
         <div class="productareawraper">
             <div class="productarea" v-for="product in productstoshow" :key="product.id">
                 <img :id="product.name" src="../assets/trabalhador-da-estrada.png">
-                <p>{{ product.name }} - {{product.price}} R$ </p>
+                <p>{{ product.name }} - {{ product.price }} R$ </p>
                 <select :id="'Select' + product.name">
                     <option :value="product.Quantitie">Max. {{ product.Quantitie }} Und.</option>
                     <option v-for="count in (product.Quantitie)" :key="count--">{{ count }} Unidades</option>
@@ -31,31 +31,31 @@ export default {
         }
     },
     methods: {
-        addTocart(data){
+        addTocart(data) {
             let cartItens = []
-            let tipo = document.getElementById(`Select${data.name}`).value 
+            let tipo = document.getElementById(`Select${data.name}`).value
             let storedData = localStorage.getItem('cesta')
-            if (! storedData){
+            if (!storedData) {
                 cartItens.push([data.categories[0].name, data.name, tipo, data.price])
                 localStorage.setItem('cesta', JSON.stringify(cartItens))
             }
-            else{
+            else {
                 let newdata = JSON.parse(storedData)
                 let newqnt = ''
-                for (let registro in newdata){
-                    if (newdata[registro][1] == data.name){
-                        newqnt = registro 
+                for (let registro in newdata) {
+                    if (newdata[registro][1] == data.name) {
+                        newqnt = registro
                     }
                 }
                 if (newqnt != '') {
-                    newdata[newqnt][2] = tipo     
+                    newdata[newqnt][2] = tipo
                     localStorage.setItem('cesta', JSON.stringify(newdata))
-                }else{
+                } else {
                     cartItens = [data.categories[0].name, data.name, tipo, data.price]
                     newdata.push(cartItens)
                     localStorage.setItem('cesta', JSON.stringify(newdata))
                 }
-                
+
             }
         },
         // Lembrete, resolver isso via backend
@@ -98,13 +98,12 @@ export default {
 }
 </script>
 
-<style scoped> 
-p{
-    font-family: cursive;
-    color: rgb(216, 12, 12);
-}
+<style scoped> p {
+     font-family: cursive;
+     color: rgb(216, 12, 12);
+ }
 
-select {
+ select {
      width: 80%;
      height: 10%;
      border-radius: 10px;

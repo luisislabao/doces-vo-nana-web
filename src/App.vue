@@ -22,7 +22,7 @@
       <input type="text" placeholder="pesquisa teu docin!!🔎" id="pesquisa"><select name="categoria" id="tipos"
         @change="replace()"></select>
     </div>
-    <div><input type="text" placeholder=" Em nome de: *" id="name"><input type="text" placeholder="Para o endereço: *" id="addres"><input type="text" placeholder="Contato (whatsapp): *" id="contact"></div>
+    <div><input type="text" placeholder=" Nome/ID *" id="name"><input type="text" placeholder="Senha *" id="addres"><button class="shopButton" type="button">Entrar</button></div>
     <div v-if="ok != false" :key="change">
       <div v-for="category in categories" :key="category.id">
         <Board_Itens @tellto-Header="receiveemit($event)" :category="category"></Board_Itens>

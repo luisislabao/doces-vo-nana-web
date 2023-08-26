@@ -1,7 +1,14 @@
 <template>
     <div class="container">
-        <img @click="menu()" @mouseenter="colorin('menu')" @mouseleave="colorout('menu')" id="menu"
-            src="../assets/icons8-cardápio-512.png">
+        <div>
+            <img @click="cesta()"  @mouseenter="colorin('menu')" @mouseleave="colorout('menu')" id="menu"
+            src="../assets/cesta-64.png">
+            <div @mouseleave="close()" id="myDropdown" class="dropdown-content">
+                    <ul v-for="(array) in cont" :key="array">
+                        <li v-if="array[2][0] != '0'"><p>{{ array[1]}} (X{{ array[2][0]}}) - {{ array[3]}}</p></li> 
+                    </ul>
+            </div>
+        </div>
 
         <div>
             <img src="../assets/instagram.png" @click="insta('https://www.instagram.com/bolosdavonana/')"
@@ -9,23 +16,15 @@
             <p class="instabuttom"> Bolos da Vó Nana</p>
         </div>
 
-        <div>
-            <img @click="cesta()" @mouseenter="colorin('cesta')" @mouseleave="colorout('cesta')" id="cesta"
-                src="../assets/cesta-64.png">
-        </div>
+        <!-- <div class="cesta">
+            <img @click="cesta()" @mouseenter="colorin('cesta')" @mouseleave="colorout('cesta')" id="cesta" src="../assets/cesta-64.png"
+                >
+        </div> -->
 
         <button class="shopButton" @click="pedido()" type="button">Fazer pedido!!</button>
 
         <!-- menu flutuante -->
-        <div @mouseleave="close()" id="myDropdown" class="dropdown-content">
-            <p class="funcionario" @click="autority()">Funcionário</p><br>
-            <hr>
-            <a href="#about">Sobre nós</a><br>
-            <hr>
-            <a href="https://api.whatsapp.com/send?phone=5553991755953&text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20seus%20produtos."
-                target="_blank">Contate-nos</a><br>
-            <hr>
-        </div>
+
     </div>
 </template>
 <script>
@@ -37,6 +36,12 @@ export default {
     props: {
         pedidos: String
     },
+    data() {
+        return {
+            cont: []
+        }
+    }
+    ,
     methods: {
         autority() {
             let senha = window.prompt('Senha')
@@ -67,46 +72,21 @@ export default {
         cesta() {
             let name = document.getElementById('name').value
             let addres = document.getElementById('addres').value
-            let contact = document.getElementById('contact').value
             let alert = ''
-            let cesta = []
-            let cont = ''
+            // let cesta = []
             if (name == '') {
-                alert = '° Nome'
+                alert = '° Nome/Id'
             } if (addres == '') {
-                alert += '\n° Endereço'
-            } if (contact == '') {
-                alert += '\n° Contato (Whatsapp)'
-            } if (name == '' || addres == '' || contact == '') {
+                alert += '\n° Senha'
+            } if (name == '' || addres == '') {
                 window.alert(`Faltam informações, tais quais:\n${alert}`)
             } else {
                 let basket = JSON.parse(localStorage.getItem('cesta'))
-                for (let iten in basket) {
-                    if (cesta.indexOf(basket[iten][0]) == -1) {
-                        cesta.push(basket[iten][0])
-                    }
-                } window.alert(cesta)
-                console.log(basket)
-                for (let tipo in cesta) {
-                    for (let reg in basket) {
-                        if (cesta[tipo] == basket[reg][0]) {
-                            cont += (`°\n ${basket[reg][1]} - ${basket[reg][2]} x ${basket[reg][3]} =\n` + Number(basket[reg][2][0]) * basket[reg][3])
-                        }
-                    }
-                }
-                Swal.fire({
-                    type: 'info',
-                    title: 'CESTA ',
-                    text: cont,
-                    width: 250
-                    
-                })
+                this.cont = basket
             }
-
-
-        },
-        menu() {
             document.getElementById("myDropdown").classList.toggle("show");
+
+
         },
         pedido() {
             Swal.fire({
@@ -130,18 +110,11 @@ export default {
     color: brown;
 }
 
-.funcionario {
-    font-size: medium;
-}
-
-.funcionario:hover {
-    cursor: no-drop;
-}
-
-p {
-    color: #ffe4c4;
+li {
+    color:brown;
     font-family: cursive;
-    font-size: x-large;
+    /* font-size: x-large; */
+    text-align: left;
 }
 
 div {
@@ -207,6 +180,5 @@ img {
 .show {
     display: block;
 }
-
 /* <!-- seetalert style --> */
 </style> 
