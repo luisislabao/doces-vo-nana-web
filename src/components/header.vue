@@ -1,12 +1,16 @@
 <template>
     <div class="container">
         <div>
-            <img @click="cesta()"  @mouseenter="colorin('menu')" @mouseleave="colorout('menu')" id="menu"
-            src="../assets/cesta-64.png">
+            <img @click="cesta()" @mouseenter="colorin('menu')" @mouseleave="colorout('menu')" id="menu"
+                src="../assets/cesta-64.png">
             <div @mouseleave="close()" id="myDropdown" class="dropdown-content">
-                    <ul v-for="(array) in cont" :key="array">
-                        <li v-if="array[2][0] != '0'"><p>{{ array[1]}} (X{{ array[2][0]}}) - {{ array[3]}}</p></li> 
-                    </ul>
+                <ul v-for="(array) in cont" :key="array">
+                    <li v-if="array[2][0] != '0'" style="color: brown;">
+                        <p style="color: bisque;">{{ array[1] }} X ({{ array[2] }} Unidades) = {{ array[2] * array[3]}} R$ <button id="ex" @click="excluir(`${array[1]}`)"> Excluir</button> </p> 
+                    </li>
+                    <li v-else>Vazio</li>
+                </ul>
+                <h1>Total =</h1>
             </div>
         </div>
 
@@ -84,6 +88,7 @@ export default {
                 let basket = JSON.parse(localStorage.getItem('cesta'))
                 this.cont = basket
             }
+            console.log(this.cont)
             document.getElementById("myDropdown").classList.toggle("show");
 
 
@@ -101,6 +106,19 @@ export default {
         },
         close() {
             document.getElementById("myDropdown").classList.remove("show");
+        },
+        excluir(nome){
+            let pkg = JSON.parse(localStorage.getItem('cesta'))
+            let newpkg = []
+            for (let iten in pkg){
+                if (pkg[iten][1] != nome){
+                    newpkg.push(pkg[iten])
+                }
+            }
+            localStorage.setItem('cesta', JSON.stringify(newpkg))
+            document.getElementById("myDropdown").classList.remove("show");
+            document.getElementById("myDropdown").classList.toggle("show");
+            
         }
     }
 }
@@ -111,7 +129,7 @@ export default {
 }
 
 li {
-    color:brown;
+    color: brown;
     font-family: cursive;
     /* font-size: x-large; */
     text-align: left;
@@ -180,5 +198,11 @@ img {
 .show {
     display: block;
 }
-/* <!-- seetalert style --> */
-</style> 
+#ex{
+    border-radius: 20px;
+}
+#ex:hover{
+    background-color: beige;
+    color: brown;
+}
+/* <!-- seetalert style --> */</style> 

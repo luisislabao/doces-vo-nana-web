@@ -33,7 +33,8 @@ export default {
     methods: {
         addTocart(data) {
             let cartItens = []
-            let tipo = document.getElementById(`Select${data.name}`).value
+            let string = document.getElementById(`Select${data.name}`).value
+            let tipo = parseInt(string.replace(/\D/g, ''))
             let storedData = localStorage.getItem('cesta')
             if (!storedData) {
                 cartItens.push([data.categories[0].name, data.name, tipo, data.price])
