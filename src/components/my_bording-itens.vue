@@ -99,7 +99,8 @@ export default {
 }
 </script>
 
-<style scoped> p {
+<style scoped> 
+p {
      font-family: cursive;
      color: rgb(216, 12, 12);
  }

@@ -3,14 +3,15 @@
         <div>
             <img @click="cesta()" @mouseenter="colorin('menu')" @mouseleave="colorout('menu')" id="menu"
                 src="../assets/cesta-64.png">
-            <div @mouseleave="close()" id="myDropdown" class="dropdown-content">
+            <div @mouseleave="close()" to id="myDropdown" class="dropdown-content">
                 <ul v-for="(array) in cont" :key="array">
                     <li v-if="array[2][0] != '0'" style="color: brown;">
-                        <p style="color: bisque;">{{ array[1] }} X ({{ array[2] }} Unidades) = {{ array[2] * array[3]}} R$ <button id="ex" @click="excluir(`${array[1]}`)"> Excluir</button> </p> 
+                        <p style="color: bisque;">{{ array[1] }} X ({{ array[2] }} Unidades) = {{ array[2] * array[3] }} R$
+                            <button id="ex" @click="excluir(`${array[1]}`)"> Excluir</button> </p>
                     </li>
                     <li v-else>Vazio</li>
                 </ul>
-                <h1>Total =</h1>
+                <h1>Total = {{ soma }} R$</h1>
             </div>
         </div>
 
@@ -42,7 +43,9 @@ export default {
     },
     data() {
         return {
-            cont: []
+            cont: [],
+            soma: 0,
+            Loggin: true
         }
     }
     ,
@@ -74,19 +77,16 @@ export default {
             window.open(x)
         },
         cesta() {
-            let name = document.getElementById('name').value
-            let addres = document.getElementById('addres').value
             let alert = ''
-            // let cesta = []
-            if (name == '') {
-                alert = '° Nome/Id'
-            } if (addres == '') {
-                alert += '\n° Senha'
-            } if (name == '' || addres == '') {
+            this.soma = 0
+            if (! this.Loggin) {
                 window.alert(`Faltam informações, tais quais:\n${alert}`)
             } else {
                 let basket = JSON.parse(localStorage.getItem('cesta'))
                 this.cont = basket
+                for (let iten in this.cont) {
+                    this.soma += this.cont[iten][3] * this.cont[iten][2]
+                }
             }
             console.log(this.cont)
             document.getElementById("myDropdown").classList.toggle("show");
@@ -107,18 +107,17 @@ export default {
         close() {
             document.getElementById("myDropdown").classList.remove("show");
         },
-        excluir(nome){
+        excluir(nome) {
             let pkg = JSON.parse(localStorage.getItem('cesta'))
             let newpkg = []
-            for (let iten in pkg){
-                if (pkg[iten][1] != nome){
+            for (let iten in pkg) {
+                if (pkg[iten][1] != nome) {
                     newpkg.push(pkg[iten])
                 }
             }
             localStorage.setItem('cesta', JSON.stringify(newpkg))
-            document.getElementById("myDropdown").classList.remove("show");
+            this.cesta()
             document.getElementById("myDropdown").classList.toggle("show");
-            
         }
     }
 }
@@ -184,7 +183,7 @@ img {
     min-width: 260px;
     overflow: auto;
     border-radius: 20px;
-    box-shadow: 10px 18px 16px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 10px 18px 16px 10px rgba(0, 0, 0, 0.363);
     z-index: 1;
 }
 
@@ -198,11 +197,16 @@ img {
 .show {
     display: block;
 }
-#ex{
+
+#ex {
     border-radius: 20px;
-}
-#ex:hover{
     background-color: beige;
     color: brown;
 }
+
+#ex:hover {
+    background-color: brown;
+    color: beige;
+}
+
 /* <!-- seetalert style --> */</style> 
