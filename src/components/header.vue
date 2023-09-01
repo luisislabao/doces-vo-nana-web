@@ -1,30 +1,35 @@
 <template>
     <div class="container">
-        <div>
-            <img @click="cesta()" @mouseenter="colorin('menu')" @mouseleave="colorout('menu')" id="menu"
-                src="../assets/cesta-64.png">
-            <div @mouseleave="close()" to id="myDropdown" class="dropdown-content">
-                <ul v-for="(array) in cont" :key="array">
-                    <li v-if="array[2][0] != '0'" style="color: brown;">
-                        <p style="color: bisque;">{{ array[1] }} X ({{ array[2] }} Unidades) = {{ array[2] * array[3] }} R$
-                            <button id="ex" @click="excluir(`${array[1]}`)"> Excluir</button> </p>
-                    </li>
-                    <li v-else>Vazio</li>
-                </ul>
-                <h1>Total = {{ soma }} R$</h1>
-            </div>
+
+        <div style="font-family: cursive; color: #e69e9e8a;">
+            <button class="shopButton">Entrar
+            </button>
+            |
+            <p style="color: bisque;">ou</p>
+            |
+            <button class="shopButton">Criar</button>
         </div>
 
         <div>
-            <img src="../assets/instagram.png" @click="insta('https://www.instagram.com/bolosdavonana/')"
-                @mouseenter="colorin('logo')" @mouseleave="colorout('logo')" id="logo">
+            <img src="../assets/instagram.png" @click="insta('https://www.instagram.com/bolosdavonana/')" id="logo">
             <p class="instabuttom"> Bolos da Vó Nana</p>
         </div>
 
-        <!-- <div class="cesta">
-            <img @click="cesta()" @mouseenter="colorin('cesta')" @mouseleave="colorout('cesta')" id="cesta" src="../assets/cesta-64.png"
-                >
-        </div> -->
+        <div>
+            <img @click="cesta()" id="menu" src="../assets/cesta-64.png">
+            <div @mouseleave="close()" to id="myDropdown" class="dropdown-content">
+                <ul v-for="(array) in cont" :key="array">
+                    <li v-if="array[2][0] != '0'" style="color: brown;">
+                        <p style="color: bisque;">{{ array[1] }} X ({{ array[2] }} Unidades) = {{ (array[2] *
+                            array[3]).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}
+                            <button id="ex" @click="excluir(`${array[1]}`)"> X</button>
+                        </p>
+                    </li>
+                    <li v-else>Vazio</li>
+                </ul>
+                <h1>Total = {{ soma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</h1>
+            </div>
+        </div>
 
         <button class="shopButton" @click="pedido()" type="button">Fazer pedido!!</button>
 
@@ -38,9 +43,6 @@ import Swal from 'sweetalert2';
 
 export default {
     name: "HelloWorld",
-    props: {
-        pedidos: String
-    },
     data() {
         return {
             cont: [],
@@ -50,6 +52,9 @@ export default {
     }
     ,
     methods: {
+        entrar() {
+            document.getElementById("myCreateAcount").classList.toggle("show");
+        },
         autority() {
             let senha = window.prompt('Senha')
             if (senha == 1532) {
@@ -58,28 +63,13 @@ export default {
                 alert('Fuckyou')
             }
         },
-        colorin(x) {
-            document.getElementById(x).style.backgroundColor = "#ffe4c4";
-            document.getElementById(x).style.color = "#e99f9fe0"
-        },
-        colorout(x) {
-            if (x == 'input') {
-                document.getElementById(x).style.backgroundColor = "#FFF";
-            }
-            else if (x == 'logo') {
-                document.getElementById(x).style.color = "#FFF";
-                document.getElementById(x).style.backgroundColor = "#e99f9fe0";
-            }
-            else { document.getElementById(x).style.backgroundColor = "#e99f9fe0"; }
-
-        },
         insta(x) {
             window.open(x)
         },
         cesta() {
             let alert = ''
             this.soma = 0
-            if (! this.Loggin) {
+            if (!this.Loggin) {
                 window.alert(`Faltam informações, tais quais:\n${alert}`)
             } else {
                 let basket = JSON.parse(localStorage.getItem('cesta'))
@@ -150,9 +140,12 @@ div {
 img {
     max-width: 400px;
     max-height: 60px;
-    background-color: #e99f9fe0;
+    background-color: #e99f9f0c;
     border-radius: 20px;
+}
 
+img:hover {
+    background-color: #ffe4c4;
 }
 
 .shopButton {
@@ -209,4 +202,5 @@ img {
     color: beige;
 }
 
-/* <!-- seetalert style --> */</style> 
+/* <!-- seetalert style --> */
+</style> 
