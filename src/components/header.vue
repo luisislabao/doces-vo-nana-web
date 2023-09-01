@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-
+        <!-- Bloco de Loggin -->
         <div style="font-family: cursive; color: #e69e9e8a;">
             <button class="shopButton">Entrar
             </button>
@@ -9,12 +9,12 @@
             |
             <button class="shopButton">Criar</button>
         </div>
-
+        <!-- Icone do Istagram -->
         <div>
-            <img src="../assets/instagram.png" @click="insta('https://www.instagram.com/bolosdavonana/')" id="logo">
+            <img src="../assets/imagem_150x150.jpg" @click="insta('https://www.instagram.com/bolosdavonana/')" id="logo">
             <p class="instabuttom"> Bolos da Vó Nana</p>
         </div>
-
+        <!-- Sistema de Cesta -->
         <div>
             <img @click="cesta()" id="menu" src="../assets/cesta-64.png">
             <div @mouseleave="close()" to id="myDropdown" class="dropdown-content">
@@ -30,7 +30,7 @@
                 <h1>Total = {{ soma.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) }}</h1>
             </div>
         </div>
-
+        <!-- Botão de pedido -->
         <button class="shopButton" @click="pedido()" type="button">Fazer pedido!!</button>
 
         <!-- menu flutuante -->
