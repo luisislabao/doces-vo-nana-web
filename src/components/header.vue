@@ -1,13 +1,13 @@
 <template>
     <div class="container">
         <!-- Bloco de Loggin -->
-        <div style="font-family: cursive; color: #e69e9e8a;">
-            <button class="shopButton">Entrar
+        <div style="font-family: cursive; color: #e69e9e8a;" id="LogArea">
+            <button class="shopButton" @click="logginAcount()">Entrar
             </button>
             |
             <p style="color: bisque;">ou</p>
             |
-            <button class="shopButton">Criar</button>
+            <button class="shopButton" @click="CreateAcount()">Criar</button>
         </div>
         <!-- Icone do Istagram -->
         <div>
@@ -32,9 +32,8 @@
         </div>
         <!-- Botão de pedido -->
         <button class="shopButton" @click="pedido()" type="button">Fazer pedido!!</button>
-
+        
         <!-- menu flutuante -->
-
     </div>
 </template>
 <script>
@@ -52,65 +51,123 @@ export default {
     }
     ,
     methods: {
-        entrar() {
-            document.getElementById("myCreateAcount").classList.toggle("show");
-        },
-        autority() {
-            let senha = window.prompt('Senha')
-            if (senha == 1532) {
-                window.open('http://127.0.0.1:5500/Fron-End/Funcion%C3%A1rio/Index.html')
-            } else {
-                alert('Fuckyou')
-            }
-        },
-        insta(x) {
-            window.open(x)
-        },
-        cesta() {
-            let alert = ''
-            this.soma = 0
-            if (!this.Loggin) {
-                window.alert(`Faltam informações, tais quais:\n${alert}`)
-            } else {
-                let basket = JSON.parse(localStorage.getItem('cesta'))
-                this.cont = basket
-                for (let iten in this.cont) {
-                    this.soma += this.cont[iten][3] * this.cont[iten][2]
+        async logginAcount() {
+            const { value: formValues } = await Swal.fire({
+                title: 'Entrando na sua conta.',
+                html:
+                    '<input id="swal-input1" placeholder="ID / Nome de conta" class="swal2-input">' +
+                    '<input id="swal-input2" placeholder="Senha " class="swal2-input">',
+                focusConfirm: false,
+                preConfirm: () => {
+                    return [
+                        document.getElementById('swal-input1').value,
+                        document.getElementById('swal-input2').value
+                    ]
                 }
-            }
-            console.log(this.cont)
-            document.getElementById("myDropdown").classList.toggle("show");
-
-
-        },
-        pedido() {
-            Swal.fire({
-                position: 'top-end',
-                title: 'PEDIDO REALIZADO!',
-                type: 'success',
-                text: 'enviado para o seu ZAP-ZAP (69)4002-8922, favor aguardar resposta...',
-                showConfirmButton: false,
-                background: '#fff',
-                timer: 3500
             })
-        },
-        close() {
-            document.getElementById("myDropdown").classList.remove("show");
-        },
-        excluir(nome) {
-            let pkg = JSON.parse(localStorage.getItem('cesta'))
-            let newpkg = []
-            for (let iten in pkg) {
-                if (pkg[iten][1] != nome) {
-                    newpkg.push(pkg[iten])
+
+            if (formValues) {
+                    let missing = ''
+                    for (let index in formValues){
+                        if ( formValues[index] == "" & index == 0){
+                            missing = '[NOME DA CONTA]'
+                        }if ( formValues[index] == "" & index == 1){
+                            missing += ' [SENHA]'
+                        }
+                    }if (missing != ''){
+                        alert(`Faltam informações, tais quais: ${missing} `)
+                    }else{
+                        console.log(`eae ${formValues[0]} , blz?`)
+                        document.getElementById('LogArea').innerHTML = `<p style="color: bisque;">Bem vindo | <p style="color: brown;" id="nameUser"> ${formValues[0]} </p>!</p>`
+                    }
                 }
+        },
+         async CreateAcount() {
+                const { value: formValues } = await Swal.fire({
+                    title: 'Criando sua conta.',
+                    html:
+                        '<input id="swal-input1" placeholder="ID / Nome de conta" class="swal2-input">' +
+                        '<input id="swal-input2" placeholder="Senha " class="swal2-input">',
+                    focusConfirm: false,
+                    preConfirm: () => {
+                        return [
+                            document.getElementById('swal-input1').value,
+                            document.getElementById('swal-input2').value
+                        ]
+                    }
+                })
+
+                if (formValues) {
+                    let missing = ''
+                    for (let index in formValues){
+                        if ( formValues[index] == "" & index == 0){
+                            missing = '[NOME DA CONTA]'
+                        }if ( formValues[index] == "" & index == 1){
+                            missing += ' [SENHA]'
+                        }
+                    }if (missing != ''){
+                        alert(`Faltam informações, tais quais: ${missing} `)
+                    }else{
+                        console.log(`Você está logado como: ${formValues[0]}`)
+                    }
+                }
+            },
+            autority() {
+                let senha = window.prompt('Senha')
+                if (senha == 1532) {
+                    window.open('http://127.0.0.1:5500/Fron-End/Funcion%C3%A1rio/Index.html')
+                } else {
+                    alert('Fuckyou')
+                }
+            },
+            insta(x) {
+                window.open(x)
+            },
+            cesta() {
+                let alert = ''
+                this.soma = 0
+                if (!this.Loggin) {
+                    window.alert(`Faltam informações, tais quais:\n${alert}`)
+                } else {
+                    let basket = JSON.parse(localStorage.getItem('cesta'))
+                    this.cont = basket
+                    for (let iten in this.cont) {
+                        this.soma += this.cont[iten][3] * this.cont[iten][2]
+                    }
+                }
+                console.log(this.cont)
+                document.getElementById("myDropdown").classList.toggle("show");
+
+
+            },
+            pedido() {
+                Swal.fire({
+                    position: 'top-end',
+                    title: 'PEDIDO REALIZADO!',
+                    type: 'success',
+                    text: 'enviado para o seu ZAP-ZAP (69)4002-8922, favor aguardar resposta...',
+                    showConfirmButton: false,
+                    background: '#fff',
+                    timer: 3500
+                })
+            },
+            close() {
+                document.getElementById("myDropdown").classList.remove("show");
+            },
+            excluir(nome) {
+                let pkg = JSON.parse(localStorage.getItem('cesta'))
+                let newpkg = []
+                for (let iten in pkg) {
+                    if (pkg[iten][1] != nome) {
+                        newpkg.push(pkg[iten])
+                    }
+                }
+                localStorage.setItem('cesta', JSON.stringify(newpkg))
+                this.cesta()
+                document.getElementById("myDropdown").classList.toggle("show");
             }
-            localStorage.setItem('cesta', JSON.stringify(newpkg))
-            this.cesta()
-            document.getElementById("myDropdown").classList.toggle("show");
         }
     }
-}
 </script>
 <style scoped>
 .instabuttom {
