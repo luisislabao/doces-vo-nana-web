@@ -88,6 +88,7 @@ export default {
   },
   mounted() {
     // swift boarding itens
+    alert('Criar um mecanismo para a bara de pesquisa de produtos em especifico')
     this.ok = true
 
     //create array "category "
