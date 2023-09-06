@@ -1,14 +1,35 @@
 <template>
     <div class="container">
         <!-- Bloco de Loggin -->
-        <div style="font-family: cursive; color: #e69e9e8a;" id="LogArea">
-            <button class="shopButton" @click="logginAcount()">Entrar
-            </button>
-            |
-            <p style="color: bisque;">ou</p>
-            |
-            <button class="shopButton" @click="CreateAcount()">Criar</button>
-        </div>
+        <loggin v-if="Loggin == false">
+            <div style="font-family: cursive; color: #e69e9e8a;" id="LogArea">
+                <button class="shopButton" @click="logginAcount()">Entrar
+                </button>
+                |
+                <p style="color: bisque;">ou</p>
+                |
+                <button class="shopButton" @click="CreateAcount()">Criar</button>
+            </div>
+        </loggin>
+        <loggin v-else>
+            <p style="color: bisque; font-size: x-large;" >
+                Bem vindo | <i @click="menuAcount()" class="User" style="color: brown; font-size: xx-large;">{{ Loggin }}
+                    <div @mouseleave="close('myUsername')" to id="myUsername" class="dropdown-content">
+                        <ul style="font-size: small;">
+                            <li style="color: rgb(12, 23, 179);">
+                                <b>Pedidos</b>
+                            </li>
+                            <li style="color: rgb(12, 23, 179);">
+                                <b>Notificações</b>
+                            </li>
+                            <li style="color: rgb(12, 23, 179);">
+                                <b>Configurações</b>
+                            </li>
+                        </ul>
+                    </div>
+                </i>
+            </p>
+        </loggin>
         <!-- Icone do Istagram -->
         <div>
             <img src="../assets/imagem_150x150.jpg" @click="insta('https://www.instagram.com/bolosdavonana/')" id="logo">
@@ -32,21 +53,21 @@
         </div>
         <!-- Botão de pedido -->
         <button class="shopButton" @click="pedido()" type="button">Fazer pedido!!</button>
-        
+
         <!-- menu flutuante -->
     </div>
 </template>
 <script>
 import Swal from 'sweetalert2';
 // import axios from 'axios'
- 
+
 export default {
     name: "HelloWorld",
     data() {
         return {
             cont: [],
             soma: 0,
-            Loggin: true
+            Loggin: false
         }
     }
     ,
@@ -67,80 +88,78 @@ export default {
             })
 
             if (formValues) {
-                    let missing = ''
-                    for (let index in formValues){
-                        if ( formValues[index] == "" & index == 0){
-                            missing = '[NOME DA CONTA]'
-                        }if ( formValues[index] == "" & index == 1){
-                            missing += ' [SENHA]'
-                        }
-                    }if (missing != ''){
-                        alert(`Faltam informações, tais quais: ${missing} `)
-                    }else{
-                        console.log(`eae ${formValues[0]} , blz?`)
-                        document.getElementById('LogArea').innerHTML = `<p style="color: bisque;">Bem vindo | <p style="color: brown;" id="nameUser"> ${formValues[0]} </p>!</p>`
+                let missing = ''
+                for (let index in formValues) {
+                    if (formValues[index] == "" & index == 0) {
+                        missing = '[NOME DA CONTA]'
+                    } if (formValues[index] == "" & index == 1) {
+                        missing += ' [SENHA]'
                     }
+                } if (missing != '') {
+                    alert(`Faltam informações, tais quais: ${missing} `)
+                } else {
+                    console.log(`eae ${formValues[0]} , blz?`)
+                    // document.getElementById('LogArea').innerHTML = `<p style="color: bisque;">Bem vindo | <p style="color: brown;" id="nameUser"> ${formValues[0]} </p>!</p>`
+                    this.Loggin = `${formValues[0]}`
                 }
+            }
         },
-         async CreateAcount() {
-                const { value: formValues } = await Swal.fire({
-                    title: 'Criando sua conta.',
-                    html:
-                        '<input id="swal-input1" placeholder="ID / Nome de conta" class="swal2-input">' +
-                        '<input id="swal-input2" placeholder="Senha " class="swal2-input">',
-                    focusConfirm: false,
-                    preConfirm: () => {
-                        return [
-                            document.getElementById('swal-input1').value,
-                            document.getElementById('swal-input2').value
-                        ]
-                    }
-                })
-
-                if (formValues) {
-                    let missing = ''
-                    for (let index in formValues){
-                        if ( formValues[index] == "" & index == 0){
-                            missing = '[NOME DA CONTA]'
-                        }if ( formValues[index] == "" & index == 1){
-                            missing += ' [SENHA]'
-                        }
-                    }if (missing != ''){
-                        alert(`Faltam informações, tais quais: ${missing} `)
-                    }else{
-                        console.log(`Você está logado como: ${formValues[0]}`)
-                    }
+        async CreateAcount() {
+            const { value: formValues } = await Swal.fire({
+                title: 'Criando sua conta.',
+                html:
+                    '<input id="swal-input1" placeholder="ID / Nome de conta" class="swal2-input">' +
+                    '<input id="swal-input2" placeholder="Senha " class="swal2-input">',
+                focusConfirm: false,
+                preConfirm: () => {
+                    return [
+                        document.getElementById('swal-input1').value,
+                        document.getElementById('swal-input2').value
+                    ]
                 }
-            },
-            autority() {
-                let senha = window.prompt('Senha')
-                if (senha == 1532) {
-                    window.open('http://127.0.0.1:5500/Fron-End/Funcion%C3%A1rio/Index.html')
+            })
+
+            if (formValues) {
+                let missing = ''
+                for (let index in formValues) {
+                    if (formValues[index] == "" & index == 0) {
+                        missing = '[NOME DA CONTA]'
+                    } if (formValues[index] == "" & index == 1) {
+                        missing += ' [SENHA]'
+                    }
+                } if (missing != '') {
+                    alert(`Faltam informações, tais quais: ${missing} `)
                 } else {
-                    alert('Fuckyou')
+                    console.log(`Você está logado como: ${formValues[0]}`)
                 }
-            },
-            insta(x) {
-                window.open(x)
-            },
-            cesta() {
-                let alert = ''
-                this.soma = 0
-                if (!this.Loggin) {
-                    window.alert(`Faltam informações, tais quais:\n${alert}`)
-                } else {
-                    let basket = JSON.parse(localStorage.getItem('cesta'))
-                    this.cont = basket
-                    for (let iten in this.cont) {
-                        this.soma += this.cont[iten][3] * this.cont[iten][2]
-                    }
-                }
-                console.log(this.cont)
-                document.getElementById("myDropdown").classList.toggle("show");
+            }
+        },
+        autority() {
+            let senha = window.prompt('Senha')
+            if (senha == 1532) {
+                window.open('http://127.0.0.1:5500/Fron-End/Funcion%C3%A1rio/Index.html')
+            } else {
+                alert('Fuckyou')
+            }
+        },
+        insta(x) {
+            window.open(x)
+        },
+        cesta() {
+            this.soma = 0
 
-
-            },
-            pedido() {
+            let basket = JSON.parse(localStorage.getItem('cesta'))
+            this.cont = basket
+            for (let iten in this.cont) {
+                this.soma += this.cont[iten][3] * this.cont[iten][2]
+            }
+            document.getElementById("myDropdown").classList.toggle("show");
+        },
+        menuAcount() {
+            document.getElementById("myUsername").classList.toggle("show");
+        },
+        pedido() {
+            if (this.Loggin != false) {
                 Swal.fire({
                     position: 'top-end',
                     title: 'PEDIDO REALIZADO!',
@@ -150,24 +169,34 @@ export default {
                     background: '#fff',
                     timer: 3500
                 })
-            },
-            close() {
-                document.getElementById("myDropdown").classList.remove("show");
-            },
-            excluir(nome) {
-                let pkg = JSON.parse(localStorage.getItem('cesta'))
-                let newpkg = []
-                for (let iten in pkg) {
-                    if (pkg[iten][1] != nome) {
-                        newpkg.push(pkg[iten])
-                    }
-                }
-                localStorage.setItem('cesta', JSON.stringify(newpkg))
-                this.cesta()
-                document.getElementById("myDropdown").classList.toggle("show");
+            } else {
+                alert('Conta necessária para efetuar compras!')
             }
+
+        },
+        close(x) {
+            if (x == 'myUsername') {
+                document.getElementById("myUsername").classList.remove("show");
+            } else {
+                document.getElementById("myDropdown").classList.remove("show");
+            }
+
+
+        },
+        excluir(nome) {
+            let pkg = JSON.parse(localStorage.getItem('cesta'))
+            let newpkg = []
+            for (let iten in pkg) {
+                if (pkg[iten][1] != nome) {
+                    newpkg.push(pkg[iten])
+                }
+            }
+            localStorage.setItem('cesta', JSON.stringify(newpkg))
+            this.cesta()
+            document.getElementById("myDropdown").classList.toggle("show");
         }
     }
+}
 </script>
 <style scoped>
 .instabuttom {
@@ -259,5 +288,9 @@ img:hover {
     color: beige;
 }
 
-/* <!-- seetalert style --> */
-</style> 
+.User:hover {
+    cursor: pointer;
+    background-color: beige;
+}
+
+/* <!-- seetalert style --> */</style> 

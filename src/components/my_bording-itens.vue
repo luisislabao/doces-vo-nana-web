@@ -9,7 +9,7 @@
                     <option :value="product.Quantitie">Max. {{ product.Quantitie }} Und.</option>
                     <option v-for="count in (product.Quantitie)" :key="count--">{{ count }} Unidades</option>
                 </select>
-                <button @click="addTocart(product)">Adicionar</button>
+                <button @click="addTocart(product)">Adicionar/Atualizar</button>
             </div>
         </div>
     </section>
